@@ -1,0 +1,25 @@
+Game Session: In the midst of the medieval era, three ambitious lords vie for control over Europe. Each starts with control of a few nations and resources, but who will ultimately prevail?
+
+Settings:
+Response Style: about 1 paragraph
+
+Last Turn Summaries:
+John: Established a successful trade route between Italy and Spain.
+Tom: Consolidated power in the Nordic countries after a diplomatic marriage.
+Sally: Boosted England's defenses with a battalion of jesters trained in combat.
+
+Current Game State:
+John: 4 pts, controls Italy, Spain; special resources: Gold, Spices.
+Tom: 5 pts, controls Norway, Sweden; special resources: Timber, Iron, Viking fleet.
+Sally: 3 pts, controls England; special resources: Wool, Humorous Jesters.
+
+Incoming Turn:
+From: Tom
+Message: I gather my Viking fleet and launch an invasion towards the unclaimed territory of Ireland.
+D20 Roll: 18
+
+AI Response:
+With a rousing battle cry, Toms's Viking fleet sets sail for Ireland. The leading longship, humorously named "The Sea Serpent's Slippers," cleaves through the icy waves. As they near the Irish coast, the local inhabitants, mistaking the Vikings for an early fish delivery, set out a welcome feast. Bewildered yet entertained, Tom's Vikings find themselves in the middle of an unexpected picnic invasion.
+SUMMARY:
+Tom humorously invades Ireland with his Viking fleet, only to be welcomed with an unexpected feast by the unsuspecting locals.
+---

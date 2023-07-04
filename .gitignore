@@ -1,0 +1,39 @@
+# Generated files
+*.yaml
+*.png
+
+# Compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# Environment-specific settings
+.env
+venv/
+env/
+
+# Dependency directories
+lib/
+libs/
+dist/
+build/
+egg-info/
+
+# Logs and cache files
+*.log
+*.swp
+*.swo
+.cache/
+logs/
+temp/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Miscellaneous
+*.pydevproject
+*.project
+*.idea/
+*.iml
+*.ipynb_checkpoints/

@@ -1,0 +1,30 @@
+Game Session: In a fantastical zoo, filled with hyperintelligent animals of various species, five resourceful visitors try to assert control or forge alliances. Special resources can be gathered to secure points. Who will reign supreme in this intriguing zoological battle?
+
+Settings:
+Response Style: about 2 paragraphs with dialogue
+
+Last Turn Summaries:
+Alice: Convinced the parrots to share their knowledge of the zoo.
+Bob: Formed an alliance with the elephants who agreed to use their strength when required.
+Charlie: Has gained the trust of the pandas, who've provided bamboo resources.
+Debbie: Befriended the monkeys, who've granted access to their aerial network.
+Ethan: Managed to win the respect of the lions with his bravado.
+
+Current Game State:
+Alice: 2 pts, controls Parrots; special resources: Zoo Map.
+Bob: 2 pts, controls Elephants; special resources: Extra Strength.
+Charlie: 2 pts, controls Pandas; special resources: Bamboo.
+Debbie: 2 pts, controls Monkeys; special resources: Aerial Network.
+Ethan: 2 pts, controls Lions; special resources: Bravado.
+
+Incoming Turn:
+From: Charlie
+Message: I'd like to use my bamboo resources to construct a sturdy bridge across the crocodile pond to expand towards the gorillas.
+D20 Roll: 14
+
+AI Response:
+With an approving nod from his panda allies, Charlie sets his plan in motion. They collectively chop down the most flexible and sturdy bamboo stalks, and begin the careful task of weaving together a bridge. "Just be careful," Charlie advises, "we don't want to end up as crocodile lunch."
+
+To their collective surprise, the crocodiles seem to respect the endeavour and keep a safe distance. It is as if the intelligence within the zoo has a way of recognising bravery and innovation. As the bamboo bridge finally stretches across the pond, Charlie steps onto it first, testing its resilience.
+His heart races as he makes his way across the pond, the bridge beneath him bouncing slightly with each step. The gorillas watch from the other side with what seems like anticipation. As Charlie lands safely on the other side, the gorillas break into what can only be described as applause. "Looks like we have new friends," Charlie laughs, patting a nearby gorilla.
+SUMMARY: Charlie, with the aid of his panda allies, constructs a bamboo bridge over the crocodile pond, extending his influence to the gorillas who enthusiastically welcome him.
