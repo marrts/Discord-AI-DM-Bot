@@ -67,5 +67,5 @@ The bot should now be running and ready to join a Discord server.
 10. `!score`: Get the current state of the game.
 11. `!stats`: Get a histogram of all players' rolls.
 12. `!turn <action>`: Make a turn in the main game.
-   - Example: !turn I use my super intelligent cow herd equipped with mind controlling cowboy hats to attempt to discretely take over Louisiana.  
-14. `!setThoughts`: Set the thoughts channel where the all the raw AI prompts and responses will go. Just call this command in a channel and it will be stored for all game sessions.
+    - Example: !turn I use my super intelligent cow herd equipped with mind controlling cowboy hats to attempt to discretely take over Louisiana.  
+13. `!setThoughts`: Set the thoughts channel where the all the raw AI prompts and responses will go. Just call this command in a channel and it will be stored for all game sessions.
