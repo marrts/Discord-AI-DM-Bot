@@ -1,12 +1,27 @@
 import discord
 from discord.ext import commands
+from discord.voice_client import VoiceClient
+from discord import FFmpegOpusAudio
 from langchain.llms import OpenAI
 from .BotDatabase import *
+from .TextToSpeech import *
 import random
 import re
+import asyncio
+
+async def speak_message(message, voice_channel):
+    if voice_channel is None:
+        return
+    speech_file = "latest_message.mp3"
+    create_sound_file(message, speech_file)
+    audio_source = FFmpegOpusAudio(speech_file)
+    voice_channel.play(audio_source, after=lambda e: print('Player error: %s' % e) if e else None)
+    while voice_channel.is_playing():
+        await asyncio.sleep(0.1)
 
 
-async def send_message(message, channel):
+async def send_message(message, channel, voice_channel=None):
+    await speak_message(message, voice_channel)
     messages = split_string_into_chunks(message)
     for msg in messages:
         await channel.send(msg)
@@ -52,6 +67,7 @@ class BotHandler:
         self.discord_token = discord_token
         self.openai_api_key = openai_api_key
         self.filename = filename
+        self.voice_channel = None
 
         intents = discord.Intents.default()
         intents.message_content = True
@@ -79,7 +95,7 @@ class BotHandler:
             set_prompt_resp = session.set_prompt(prompt)
             self.db.save_session(channel_id)
 
-            await send_message(set_prompt_resp.get_message(), ctx)
+            await send_message(set_prompt_resp.get_message(), ctx, self.voice_channel)
 
         @self.bot.command(name='setResponseStyle', help='Set the style of response for current game session')
         async def set_response_style(ctx, *, prompt: str):
@@ -90,7 +106,7 @@ class BotHandler:
             set_response_style_resp = session.set_response_style(prompt)
             self.db.save_session(channel_id)
 
-            await send_message(set_response_style_resp.get_message(), ctx)
+            await send_message(set_response_style_resp.get_message(), ctx, self.voice_channel)
 
         @self.bot.command(name='start', help='Start the current game session')
         async def start(ctx):
@@ -101,7 +117,7 @@ class BotHandler:
             set_active_resp = session.set_active()
             self.db.save_session(channel_id)
 
-            await send_message(set_active_resp.get_message(), ctx)
+            await send_message(set_active_resp.get_message(), ctx, self.voice_channel)
 
         @self.bot.command(name='stop', help='Stop the current game session')
         async def stop(ctx):
@@ -134,7 +150,7 @@ class BotHandler:
             add_player_resp = session.add_player(ctx.author, territories_list, special_resources_list)
             self.db.save_session(channel_id)
 
-            await send_message(add_player_resp.get_message(), ctx)
+            await send_message(add_player_resp.get_message(), ctx, self.voice_channel)
 
         @self.bot.command(name='addT',
                           help='Add a territory to the player that sent the message')
@@ -146,7 +162,7 @@ class BotHandler:
             give_territory_resp = session.give_territory(ctx.author, territory)
             self.db.save_session(channel_id)
 
-            await send_message(give_territory_resp.get_message(), ctx)
+            await send_message(give_territory_resp.get_message(), ctx, self.voice_channel)
 
         @self.bot.command(name='addSR',
                           help='Add a special resource to the player that sent the message')
@@ -158,7 +174,7 @@ class BotHandler:
             give_special_resource_resp = session.give_special_resource(ctx.author, special_resource)
             self.db.save_session(channel_id)
 
-            await send_message(give_special_resource_resp.get_message(), ctx)
+            await send_message(give_special_resource_resp.get_message(), ctx, self.voice_channel)
 
         @self.bot.command(name='removeT',
                           help='Remove a territory to the player that sent the message')
@@ -214,7 +230,7 @@ class BotHandler:
             rolls = [random.randint(1, num_sides) for _ in range(num_dice)]
             total = sum(rolls)
             rolls_str = ', '.join(map(str, rolls))
-            await send_message(f'{ctx.author.mention} rolled {dice}: {rolls_str}. Total: {total}', ctx)
+            await send_message(f'{ctx.author.mention} rolled {dice}: {rolls_str}. Total: {total}', ctx, self.voice_channel)
 
         @self.bot.command(name='score',
                           help='Get the current state of the game')
@@ -249,11 +265,13 @@ class BotHandler:
             sender_id = ctx.author.id
             check_ready_resp = session.check_ready_for_turn(sender_id)
             if not check_ready_resp.get_success():
-                await send_message(check_ready_resp.get_message(), ctx)
+                await send_message(check_ready_resp.get_message(), ctx, self.voice_channel)
                 return
 
             d20_roll = roll(20)  # generate a random roll
-            await send_message(f"{ctx.author.mention}, you rolled a {d20_roll}", ctx)
+            roll_msg = f"rolled a {d20_roll}."
+            await speak_message(f"{ctx.author.nick} said, {sender_msg}........ and {roll_msg}", self.voice_channel)
+            await send_message(f"{ctx.author.mention}, you {roll_msg}", ctx)
 
             # Prepare the input for the LLM
             llm_input = session.generate_full_request(sender_id, sender_msg, d20_roll)
@@ -272,7 +290,7 @@ class BotHandler:
             self.db.save_session(channel_id)
 
             # Send the response
-            await send_message(content, ctx)
+            await send_message(content, ctx, self.voice_channel)
 
         @self.bot.command(name='setThoughts',
                           help='Set the thoughts channel')
@@ -282,6 +300,37 @@ class BotHandler:
 
             await send_message("Thoughts channel set", ctx)
 
+        @self.bot.command(name='joinVoice',
+                          help='Join the current voice channel')
+        async def join_voice(ctx):
+            if ctx.author.voice is None:
+                await send_message("You aren't in a voice channel so I don't know where to go", ctx)
+            voice_channel_name = ctx.author.voice.channel
+            self.voice_channel = await voice_channel_name.connect()
+            await speak_message("Hello from your Dungeon Master!", self.voice_channel)
+            await send_message(f'Joined the {voice_channel_name.name} voice channel!', ctx)
+
+        @self.bot.command(name='leaveVoice',
+                          help='Make the discord bot leave the voice channel')
+        async def leave_voice(ctx):
+            if self.voice_channel is None:
+                await send_message("I'm not in any voice channels", ctx)
+            await self.voice_channel.disconnect()
+            self.voice_channel = None
+            await send_message("Disconnected from the voice channel", ctx)
+
+        @self.bot.command(name='testSpeech', help='Speak whatever was sent')
+        async def add_special_resource(ctx, *, speech: str):
+            if self.voice_channel is None:
+                await ctx.send("Can't speak because I'm not in a voice channel")
+            else:
+                speech_file = "test_speech.mp3"
+                create_sound_file(speech, speech_file)  # Assumed you have a method to create the sound file
+                audio_source = FFmpegOpusAudio(speech_file)
+                self.voice_channel.play(audio_source, after=lambda e: print('Player error: %s' % e) if e else None)
+                while self.voice_channel.is_playing():
+                    await asyncio.sleep(0.1)
+                await ctx.send("Done speaking")
 
     def run(self):
         self.bot.run(self.discord_token)

@@ -1,6 +1,7 @@
 # Generated files
 *.yaml
 *.png
+*.mp3
 
 # Compiled Python files
 *.pyc
