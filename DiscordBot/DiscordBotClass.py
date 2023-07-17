@@ -268,7 +268,14 @@ class BotHandler:
                 await send_message(check_ready_resp.get_message(), ctx, self.voice_channel)
                 return
 
-            d20_roll = roll(20)  # generate a random roll
+            # Check for a roll value in the sender's message
+            msg_split = sender_msg.split()
+            if msg_split[0].startswith("roll="):
+                d20_roll = int(msg_split[0].split("=")[1])  # Extract the specified roll value
+                sender_msg = " ".join(msg_split[1:])  # Remove the roll value from the sender's message
+            else:
+                d20_roll = roll(20)  # generate a random roll
+
             roll_msg = f"rolled a {d20_roll}."
             await speak_message(f"{ctx.author.nick} said, {sender_msg}........ and {roll_msg}", self.voice_channel)
             await send_message(f"{ctx.author.mention}, you {roll_msg}", ctx)
@@ -283,7 +290,7 @@ class BotHandler:
             await self.send_thought(ai_response)
 
             # Split out response from summary
-            content, summary = parse_output(ai_response)
+            thoughts, content, summary = parse_output(ai_response)
 
             # Add turn to database
             session.add_turn(sender_id, sender_msg, d20_roll, content, summary)

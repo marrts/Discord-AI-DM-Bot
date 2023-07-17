@@ -47,14 +47,25 @@ def roll(num_sides):
 
 
 def parse_output(input_string):
-    string = re.sub(r'^AI Response:', '', input_string.strip())  # Remove "AI Response:" from the start
-    match = re.search(r'SUMMARY:\s*(.*)', string)
-    if match:
-        summary = match.group(1)
-        before_summary = string[:match.start()]
-        return before_summary.strip(), summary.strip()
+    thoughts_match = re.search(r'THOUGHTS:(.*?)RESPONSE:', input_string, re.DOTALL)
+    if thoughts_match:
+        thoughts = thoughts_match.group(1).strip()
     else:
-        return None, None
+        thoughts = None
+
+    response_match = re.search(r'RESPONSE:(.*?)SUMMARY:', input_string, re.DOTALL)
+    if response_match:
+        response = response_match.group(1).strip()
+    else:
+        response = None
+
+    summary_match = re.search(r'SUMMARY:(.*)', input_string)
+    if summary_match:
+        summary = summary_match.group(1).strip()
+    else:
+        summary = None
+
+    return thoughts, response, summary
 
 
 def plot_histogram(players, filename=None):
@@ -426,9 +437,10 @@ class Channel:
         full_request += "\n" + load_example(1)
         full_request += "\nEXAMPLE 2:"
         full_request += "\n" + load_example(2)
+        full_request += "\nEXAMPLE 3:"
+        full_request += "\n" + load_example(3)
         full_request += "\n---------"
-        full_request += "\nNow for your real input, remember to follow the example structure and always include a " \
-                        "summary "
+        full_request += "\nNow for your real input, remember to follow the example structures"
         full_request += "\n" + self.generate_turn_request(sender_id, msg, d20_roll)
         return full_request
 

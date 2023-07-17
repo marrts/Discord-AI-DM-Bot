@@ -3,6 +3,11 @@ Game Session: In a fantastical zoo, filled with hyperintelligent animals of vari
 Settings:
 Response Style: about 2 paragraphs with dialogue
 
+Game Session: In a fantastical zoo, filled with hyperintelligent animals of various species, five resourceful visitors try to assert control or forge alliances. Special resources can be gathered to secure points. Who will reign supreme in this intriguing zoological battle?
+
+Settings:
+Response Style: about 2 paragraphs with dialogue
+
 Last Turn Summaries:
 Alice: Convinced the parrots to share their knowledge of the zoo.
 Bob: Formed an alliance with the elephants who agreed to use their strength when required.
@@ -20,11 +25,16 @@ Ethan: 2 pts, controls Lions; special resources: Bravado.
 Incoming Turn:
 From: Charlie
 Message: I'd like to use my bamboo resources to construct a sturdy bridge across the crocodile pond to expand towards the gorillas.
-D20 Roll: 14
+D20 Roll: 4
 
 AI Response:
-With an approving nod from his panda allies, Charlie sets his plan in motion. They collectively chop down the most flexible and sturdy bamboo stalks, and begin the careful task of weaving together a bridge. "Just be careful," Charlie advises, "we don't want to end up as crocodile lunch."
+THOUGHTS:
+Charlie's alliance with the pandas provides him with a vital resource - bamboo. This versatile material is indeed suitable for bridge construction, creating a plausible plan for reaching the gorillas by crossing the crocodile pond. However, the endeavor's success is not guaranteed, particularly given the d20 roll of 4, indicating a lower success probability. Therefore, I should craft a response that balances the validity of Charlie's strategy with the potential failure indicated by the dice. The narrative will reflect the ambitious attempt to use available resources to forge a new path, underscored by the harsh reality that not all attempts succeed, especially in an environment as unpredictable as this fantastical zoo.
 
-To their collective surprise, the crocodiles seem to respect the endeavour and keep a safe distance. It is as if the intelligence within the zoo has a way of recognising bravery and innovation. As the bamboo bridge finally stretches across the pond, Charlie steps onto it first, testing its resilience.
-His heart races as he makes his way across the pond, the bridge beneath him bouncing slightly with each step. The gorillas watch from the other side with what seems like anticipation. As Charlie lands safely on the other side, the gorillas break into what can only be described as applause. "Looks like we have new friends," Charlie laughs, patting a nearby gorilla.
-SUMMARY: Charlie, with the aid of his panda allies, constructs a bamboo bridge over the crocodile pond, extending his influence to the gorillas who enthusiastically welcome him.
+RESPONSE:
+Charlie, armed with the flexible yet strong bamboo gifted by his panda allies, sets about constructing a bridge across the crocodile-infested waters. The crocs, notorious for their afternoon sunbathing, seem unfazed as Charlie and the pandas start the construction. However, as the structure begins to take form, the crocodiles' curiosity piques. One particularly adventurous crocodile named Larry, known for his love of novel things, waddles towards the unfinished bridge.
+
+"You sure that's gonna hold, mate?" Larry hollers, squinting at the hastily assembled bamboo bridge. Ignoring the doubtful reptile, Charlie and his team press on, until the bridge - shaky and not as sturdy as intended - is finally ready. Unfortunately, as the first panda foot tentatively tests the bridge, it gives way, collapsing into the sun-soaked pond.
+
+SUMMARY:
+Charlie attempts to construct a bridge using bamboo to cross the crocodile pond and expand towards the gorillas, but despite their efforts, the bridge collapses under the weight of a panda.

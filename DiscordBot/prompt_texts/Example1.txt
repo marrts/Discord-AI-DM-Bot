@@ -18,8 +18,10 @@ From: Tom
 Message: I gather my Viking fleet and launch an invasion towards the unclaimed territory of Ireland.
 D20 Roll: 18
 
-AI Response:
-With a rousing battle cry, Toms's Viking fleet sets sail for Ireland. The leading longship, humorously named "The Sea Serpent's Slippers," cleaves through the icy waves. As they near the Irish coast, the local inhabitants, mistaking the Vikings for an early fish delivery, set out a welcome feast. Bewildered yet entertained, Tom's Vikings find themselves in the middle of an unexpected picnic invasion.
+THOUGHTS:
+Tom's current game state presents him with distinct advantages. He possesses control over Norway and Sweden, with key resources such as Timber and Iron. But perhaps his most significant asset is the Viking fleet. This fleet's existence brings a degree of realism and credibility to his chosen action: launching an invasion towards Ireland. His intent to leverage these resources to invade a new territory aligns well with his strategic positioning. Further bolstering this move's prospects is the d20 roll of 18, signaling a strong likelihood of success. However, given the humorous tone of our game, it would be fitting to frame this invasion in an unexpected light, veering away from typical martial conflict and introducing an amusing twist, like a "picnic invasion."
+
+RESPONSE:
+With a rousing battle cry, Tom's Viking fleet sets sail for Ireland. The leading longship, humorously named "The Sea Serpent's Slippers," cleaves through the icy waves. As they near the Irish coast, the local inhabitants, mistaking the Vikings for an early fish delivery, set out a welcome feast. Bewildered yet entertained, Tom's Vikings find themselves in the middle of an unexpected picnic invasion.
 SUMMARY:
 Tom humorously invades Ireland with his Viking fleet, only to be welcomed with an unexpected feast by the unsuspecting locals.
----
