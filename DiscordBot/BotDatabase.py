@@ -59,7 +59,7 @@ def parse_output(input_string):
     else:
         response = None
 
-    summary_match = re.search(r'SUMMARY:(.*)', input_string)
+    summary_match = re.search(r'SUMMARY:(.*)', input_string, re.DOTALL)
     if summary_match:
         summary = summary_match.group(1).strip()
     else:

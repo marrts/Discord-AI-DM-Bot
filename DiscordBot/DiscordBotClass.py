@@ -291,9 +291,6 @@ class BotHandler:
 
             # Split out response from summary
             thoughts, content, summary = parse_output(ai_response)
-            await self.send_thought(f"Last thought: {thoughts}")
-            await self.send_thought(f"Last content: {content}")
-            await self.send_thought(f"Last summary: {summary}")
 
             # Add turn to database
             session.add_turn(sender_id, sender_msg, d20_roll, content, summary)
