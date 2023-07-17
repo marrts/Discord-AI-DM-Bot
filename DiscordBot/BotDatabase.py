@@ -29,6 +29,10 @@ def load_txt_file(filename):
     example_file = open(filename)
     return ''.join(example_file)
 
+def load_prompt_file(filename):
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    intro_file_path = os.path.join(current_dir, 'prompt_texts', filename)
+    return load_txt_file(intro_file_path)
 
 def load_intro(prompt_num):
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -440,7 +444,8 @@ class Channel:
         full_request += "\nEXAMPLE 3:"
         full_request += "\n" + load_example(3)
         full_request += "\n---------"
-        full_request += "\nNow for your real input, remember to follow the example structures"
+        full_request += "\nNow for your real input, remember to follow the example structures and provide a clear " \
+                        "success or failure of the action "
         full_request += "\n" + self.generate_turn_request(sender_id, msg, d20_roll)
         return full_request
 
@@ -529,15 +534,35 @@ class Channel:
 
     def get_story(self):
         responses = [turn.ai_response for turn in self.turns]
-        story = f"Prompt: {self.prompt}\nStory:\n"
-        story += '\n---\n'.join(responses)
+        story = '\n---\n'.join(responses)
         return story
 
     def get_summary(self):
         summaries = [turn.summary for turn in self.turns]
-        story = f"Prompt: {self.prompt}\nSummary of events:\n"
-        story += '\n---\n'.join(summaries)
+        summary = '\n---\n'.join(summaries)
+        return summary
+
+    def tell_story(self):
+        story = f"Prompt: {self.prompt}\nStory:\n"
+        story += self.get_story()
         return story
+
+    def tell_summary(self):
+        summary = f"Prompt: {self.prompt}\nSummary of events:\n"
+        summary += self.get_summary()
+        return summary
+
+    def get_win_condition_prompt(self, player_name):
+        win_condition_prompt = load_prompt_file("WinConditionIntro.txt")
+        win_condition_prompt += f"\n{load_prompt_file('WinConditionRules.txt')}"
+        win_condition_prompt += f"\nGive me a winning goal for {player_name}"
+        win_condition_prompt += f"\nPrompt: {self.prompt}"
+        win_condition_prompt += f"\nGame State\n{self.get_players_state()}"
+        win_condition_prompt += f"\nSummary of events:\n{self.tell_summary()}"
+        win_condition_prompt += f"\n----------\n"
+        win_condition_prompt += f'\nBased on the game up to this point and the rules described above, the final goal ' \
+                                f'for {player_name} that does not involve convincing any other players in the game to do anything is: '
+        return win_condition_prompt
 
     def export(self):
         players = {player_id: player.export() for player_id, player in self.players.items()}

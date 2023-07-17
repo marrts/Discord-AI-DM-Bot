@@ -339,25 +339,51 @@ class BotHandler:
                     await asyncio.sleep(0.1)
                 await ctx.send("Done speaking")
 
-        @self.bot.command(name='tellStory', help='Tell the whole story up to this point')
+        @self.bot.command(name='story', help='Tell the whole story up to this point')
         async def tell_story(ctx):
             channel_id = ctx.channel.id
             if not self.db.check_session(channel_id):
                 self.db.sessions[channel_id] = Channel(channel_id)
 
             session = self.db.get_session(channel_id)
-            story = session.get_story()
+            story = session.tell_story()
             await send_message(story, ctx)
 
-        @self.bot.command(name='tellSummary', help='Tell the whole story up to this point in summaries')
+        @self.bot.command(name='summary', help='Tell the whole story up to this point in summaries')
         async def tell_summary(ctx):
             channel_id = ctx.channel.id
             if not self.db.check_session(channel_id):
                 self.db.sessions[channel_id] = Channel(channel_id)
 
             session = self.db.get_session(channel_id)
-            summary = session.get_summary()
+            summary = session.tell_summary()
             await send_message(summary, ctx)
+
+        @self.bot.command(name='finalQuest', help='Get your win condition quest')
+        async def get_win_condition(ctx):
+            channel_id = ctx.channel.id
+            if not self.db.check_session(channel_id):
+                self.db.sessions[channel_id] = Channel(channel_id)
+
+            session = self.db.get_session(channel_id)
+            sender_id = ctx.author.id
+            check_ready_resp = session.check_ready_for_turn(sender_id)
+            if not check_ready_resp.get_success():
+                await send_message(check_ready_resp.get_message(), ctx, self.voice_channel)
+                return
+
+            # Prepare the input for the LLM
+            win_condition_prompt = session.get_win_condition_prompt(ctx.author.nick)
+            await self.send_thought(win_condition_prompt)
+
+            # Call the LLM
+            await ctx.typing()
+            ai_response = self.llm(win_condition_prompt)
+            await self.send_thought(ai_response)
+
+            await send_message(ai_response, ctx, self.voice_channel)
+
+
 
 
     def run(self):
