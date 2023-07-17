@@ -291,6 +291,9 @@ class BotHandler:
 
             # Split out response from summary
             thoughts, content, summary = parse_output(ai_response)
+            await self.send_thought(f"Last thought: {thoughts}")
+            await self.send_thought(f"Last content: {content}")
+            await self.send_thought(f"Last summary: {summary}")
 
             # Add turn to database
             session.add_turn(sender_id, sender_msg, d20_roll, content, summary)
@@ -338,6 +341,27 @@ class BotHandler:
                 while self.voice_channel.is_playing():
                     await asyncio.sleep(0.1)
                 await ctx.send("Done speaking")
+
+        @self.bot.command(name='tellStory', help='Tell the whole story up to this point')
+        async def tell_story(ctx):
+            channel_id = ctx.channel.id
+            if not self.db.check_session(channel_id):
+                self.db.sessions[channel_id] = Channel(channel_id)
+
+            session = self.db.get_session(channel_id)
+            story = session.get_story()
+            await send_message(story, ctx)
+
+        @self.bot.command(name='tellSummary', help='Tell the whole story up to this point in summaries')
+        async def tell_summary(ctx):
+            channel_id = ctx.channel.id
+            if not self.db.check_session(channel_id):
+                self.db.sessions[channel_id] = Channel(channel_id)
+
+            session = self.db.get_session(channel_id)
+            summary = session.get_summary()
+            await send_message(summary, ctx)
+
 
     def run(self):
         self.bot.run(self.discord_token)

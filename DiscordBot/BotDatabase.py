@@ -527,6 +527,18 @@ class Channel:
         player_rolls = self.get_players_rolls()
         return plot_histogram(player_rolls, filename)
 
+    def get_story(self):
+        responses = [turn.ai_response for turn in self.turns]
+        story = f"Prompt: {self.prompt}\nStory:\n"
+        story += '\n---\n'.join(responses)
+        return story
+
+    def get_summary(self):
+        summaries = [turn.summary for turn in self.turns]
+        story = f"Prompt: {self.prompt}\nSummary of events:\n"
+        story += '\n---\n'.join(summaries)
+        return story
+
     def export(self):
         players = {player_id: player.export() for player_id, player in self.players.items()}
         turns = [turn.export() for turn in self.turns]
