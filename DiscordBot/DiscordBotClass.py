@@ -230,7 +230,7 @@ class BotHandler:
             rolls = [random.randint(1, num_sides) for _ in range(num_dice)]
             total = sum(rolls)
             rolls_str = ', '.join(map(str, rolls))
-            await send_message(f'{ctx.author.mention} rolled {dice}: {rolls_str}. Total: {total}', ctx, self.voice_channel)
+            await send_message(f'{ctx.author.mention} rolled {dice}: {rolls_str}. Total: {total}', ctx)
 
         @self.bot.command(name='score',
                           help='Get the current state of the game')
