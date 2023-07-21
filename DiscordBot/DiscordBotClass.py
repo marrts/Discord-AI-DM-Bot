@@ -299,6 +299,24 @@ class BotHandler:
             # Send the response
             await send_message(content, ctx, self.voice_channel)
 
+        @self.bot.command(name='undo',
+                          help='Undo the last turn')
+        async def undo(ctx):
+            channel_id = ctx.channel.id
+            if not self.db.check_session(channel_id):
+                self.db.sessions[channel_id] = Channel(channel_id)
+
+            session = self.db.get_session(channel_id)
+
+            sender_id = ctx.author.id
+            check_ready_resp = session.check_ready_for_turn(sender_id)
+            if not check_ready_resp.get_success():
+                await send_message(check_ready_resp.get_message(), ctx, self.voice_channel)
+                return
+
+            undo_response = session.undo_turn()
+            await send_message(undo_response.get_message(), ctx, self.voice_channel)
+
         @self.bot.command(name='setThoughts',
                           help='Set the thoughts channel')
         async def set_thoughts(ctx):
@@ -327,7 +345,7 @@ class BotHandler:
             await send_message("Disconnected from the voice channel", ctx)
 
         @self.bot.command(name='testSpeech', help='Speak whatever was sent')
-        async def add_special_resource(ctx, *, speech: str):
+        async def test_speech(ctx, *, speech: str):
             if self.voice_channel is None:
                 await ctx.send("Can't speak because I'm not in a voice channel")
             else:

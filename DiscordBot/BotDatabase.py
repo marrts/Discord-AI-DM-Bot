@@ -337,6 +337,19 @@ class Channel:
         self.turns.append(turn)
         self.players[sender_id].add_turn(turn)
 
+    def undo_turn(self):
+        if len(self.turns) > 0:
+            last_turn = self.turns.pop()
+            player = self.players[last_turn.sender_id]
+            player.turn_numbers.pop()
+            if len(player.turn_numbers) > 0:
+                player.last_move_summary = self.turns[player.turn_numbers[-1] - 1].summary
+            else:
+                player.last_move_summary = f"{player.name} has not made any actions yet."
+            return DataResponse(True, "Last turn undone successfully")
+        else:
+            return DataResponse(False, "No turns to undo")
+
     def get_turn(self, idx):
         return self.turns[idx]
 
